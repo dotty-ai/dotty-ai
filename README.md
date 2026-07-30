@@ -1,16 +1,22 @@
-## Wassup 👋
+# 🤖 Dotty AI
 
-<!--
-**dotty-ai/dotty-ai** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+Dotty AI is a modern AI chatbot powered by OpenRouter and hosted on Vercel.
 
-Here are some ideas to get you started:
+## Features
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+- 💬 AI Chat
+- ⚡ Fast Responses
+- 📱 Mobile Friendly
+- 💜 Purple Glassmorphism UI
+
+## Technologies
+
+- HTML
+- CSS
+- JavaScript
+- Vercel
+- OpenRouter API
+
+## Developer
+
+Made by Dotty
