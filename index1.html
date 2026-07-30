@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>DOTTY AI</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="background">
+    <div class="blob blob1"></div>
+    <div class="blob blob2"></div>
+    <div class="blob blob3"></div>
+</div>
+
+<div class="container">
+
+    <header>
+
+        <div class="logo">
+
+            <div class="logo-circle">
+                🤖
+            </div>
+
+            <div>
+
+                <h1>DOTTY AI</h1>
+
+                <span>Your Intelligent Assistant</span>
+
+            </div>
+
+        </div>
+
+    </header>
+
+    <main id="chat">
+
+        <div class="message ai">
+
+            <div class="avatar">
+                🤖
+            </div>
+
+            <div class="bubble">
+
+                <h3>Hello 👋</h3>
+
+                <p>
+                    I'm <strong>Dotty AI</strong>.
+                </p>
+
+                <p>
+                    Ask me anything!
+                </p>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <div id="typing" class="typing hidden">
+
+        <span></span>
+        <span></span>
+        <span></span>
+
+    </div>
+
+    <footer>
+
+        <form id="chatForm">
+
+            <input
+                id="prompt"
+                type="text"
+                placeholder="Message Dotty AI..."
+                autocomplete="off"
+                required
+            >
+
+            <button id="sendBtn">
+
+                ➜
+
+            </button>
+
+        </form>
+
+    </footer>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
