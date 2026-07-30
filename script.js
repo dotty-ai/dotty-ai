@@ -1,98 +1,89 @@
-const chat = document.getElementById("chat");
-const form = document.getElementById("chatForm");
+const messages = document.getElementById("messages");
 const input = document.getElementById("prompt");
-const typing = document.getElementById("typing");
+const sendBtn = document.getElementById("sendBtn");
 
-let history = [];
-
-function addMessage(sender, text) {
-
-    const message = document.createElement("div");
-    message.className = `message ${sender}`;
-
-    const avatar = document.createElement("div");
-    avatar.className = "avatar";
-    avatar.textContent = sender === "user" ? "🧑" : "🤖";
+function addMessage(text, sender) {
 
     const bubble = document.createElement("div");
-    bubble.className = "bubble";
+    bubble.className = `message ${sender}`;
 
-    bubble.innerHTML = `
-        <p>${text.replace(/\n/g, "<br>")}</p>
-    `;
+    bubble.textContent = text;
 
-    message.appendChild(avatar);
-    message.appendChild(bubble);
+    messages.appendChild(bubble);
 
-    chat.appendChild(message);
+    messages.scrollTop = messages.scrollHeight;
 
-    chat.scrollTop = chat.scrollHeight;
 }
 
-form.addEventListener("submit", async (e) => {
+function thinking() {
 
-    e.preventDefault();
+    const bubble = document.createElement("div");
 
-    const prompt = input.value.trim();
+    bubble.className = "message ai thinking";
 
-    if (!prompt) return;
+    bubble.id = "thinking";
 
-    addMessage("user", prompt);
+    bubble.innerHTML = `
+        <span></span>
+        <span></span>
+        <span></span>
+    `;
 
-    history.push({
-        role: "user",
-        content: prompt
-    });
+    messages.appendChild(bubble);
 
-    input.value = "";
+    messages.scrollTop = messages.scrollHeight;
 
-    typing.classList.remove("hidden");
+}
 
-    try {
+function removeThinking() {
 
-        const response = await fetch("/api/chat", {
+    const t = document.getElementById("thinking");
 
-            method: "POST",
+    if(t){
 
-            headers: {
-                "Content-Type": "application/json"
-            },
+        t.remove();
 
-            body: JSON.stringify({
-                messages: history
-            })
+    }
 
-        });
+}
 
-        const data = await response.json();
+function sendMessage(){
 
-        typing.classList.add("hidden");
+    const text = input.value.trim();
 
-        if (data.reply) {
+    if(text==="") return;
 
-            addMessage("ai", data.reply);
+    const welcome = document.querySelector(".welcome");
 
-            history.push({
-                role: "assistant",
-                content: data.reply
-            });
+    if(welcome){
 
-        } else {
+        welcome.remove();
 
-            addMessage("ai", "⚠️ No response received.");
+    }
 
-        }
+    addMessage(text,"user");
 
-    } catch (err) {
+    input.value="";
 
-        typing.classList.add("hidden");
+    thinking();
 
-        addMessage(
-            "ai",
-            "❌ Unable to connect to the AI server."
-        );
+    setTimeout(()=>{
 
-        console.error(err);
+        removeThinking();
+
+        addMessage("The AI backend isn't connected yet. We'll connect it in Part 4.","ai");
+
+    },1500);
+
+}
+
+sendBtn.onclick = sendMessage;
+
+input.addEventListener("keypress",(e)=>{
+
+    if(e.key==="Enter"){
+
+        sendMessage();
 
     }
 
