@@ -1,72 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dotty AI</title>
 
-<title>Dotty AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
-<link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<div class="background"></div>
+<div class="bg"></div>
 
-<div class="chat-container">
+<div class="app">
 
-    <div class="topbar">
+    <header>
+
         <div class="logo">
-            <div class="logo-circle">D</div>
+
+            <div class="logo-icon">🤖</div>
 
             <div>
-                <h2>Dotty AI</h2>
-                <span>Powered by AI</span>
+                <h1>Dotty AI</h1>
+                <p>Powered by AI</p>
             </div>
-        </div>
-
-        <button class="new-chat">
-            +
-        </button>
-    </div>
-
-    <div class="messages" id="messages">
-
-        <div class="welcome">
-
-            <h1>Hello 👋</h1>
-
-            <p>
-                Ask me anything.
-            </p>
 
         </div>
 
+        <button id="themeBtn">🌙</button>
+
+    </header>
+
+    <main id="chat">
+
+        <div class="message ai">
+
+            <div class="avatar">🤖</div>
+
+            <div class="bubble">
+                <h2>Hello! 👋</h2>
+
+                <p>
+                    I'm <strong>Dotty AI</strong>.
+                </p>
+
+                <p>
+                    Ask me anything.
+                </p>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <div id="typing" class="typing hidden">
+        <span></span>
+        <span></span>
+        <span></span>
     </div>
 
-    <div class="input-area">
+    <form id="chatForm">
 
         <input
-        type="text"
-        id="prompt"
-        placeholder="Message Dotty AI...">
+            id="prompt"
+            type="text"
+            placeholder="Message Dotty AI..."
+            autocomplete="off"
+            required
+        >
 
-        <button id="sendBtn">
-
+        <button id="sendBtn" type="submit">
             ➜
-
         </button>
 
-    </div>
+    </form>
+
+    <footer>
+        POWERED BY DOTTY ❤️
+    </footer>
 
 </div>
 
 <script src="script.js"></script>
 
 </body>
-</html>
+    </html>
