@@ -1,114 +1,91 @@
-const messages = document.getElementById("messages");
+const chat = document.getElementById("chat");
+const form = document.getElementById("chatForm");
 const input = document.getElementById("prompt");
-const sendBtn = document.getElementById("sendBtn");
+const themeBtn = document.getElementById("themeBtn");
 
 function addMessage(text, sender) {
+    const message = document.createElement("div");
+    message.className = `message ${sender}`;
+
+    const avatar = document.createElement("div");
+    avatar.className = "avatar";
+    avatar.textContent = sender === "user" ? "🧑" : "🤖";
 
     const bubble = document.createElement("div");
-    bubble.className = `message ${sender}`;
-
+    bubble.className = "bubble";
     bubble.textContent = text;
 
-    messages.appendChild(bubble);
+    message.appendChild(avatar);
+    message.appendChild(bubble);
 
-    messages.scrollTop = messages.scrollHeight;
-
+    chat.appendChild(message);
+    chat.scrollTop = chat.scrollHeight;
 }
 
-function thinking() {
-
-    const bubble = document.createElement("div");
-
-    bubble.className = "message ai thinking";
-
-    bubble.id = "thinking";
-
-    bubble.innerHTML = `
-        <span></span>
-        <span></span>
-        <span></span>
-    `;
-
-    messages.appendChild(bubble);
-
-    messages.scrollTop = messages.scrollHeight;
-
+function showTyping() {
+    document.getElementById("typing").classList.remove("hidden");
 }
 
-function removeThinking() {
-
-    const t = document.getElementById("thinking");
-
-    if(t){
-
-        t.remove();
-
-    }
-
+function hideTyping() {
+    document.getElementById("typing").classList.add("hidden");
 }
 
-function sendMessage(){
-
+async function sendMessage() {
     const text = input.value.trim();
 
-    if(text==="") return;
+    if (!text) return;
 
-    const welcome = document.querySelector(".welcome");
+    addMessage(text, "user");
+    input.value = "";
 
-    if(welcome){
+    showTyping();
 
-        welcome.remove();
+    try {
+        const response = await fetch("/api/chat", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                messages: [
+                    {
+                        role: "user",
+                        content: text
+                    }
+                ]
+            })
+        });
 
-    }
+        const data = await response.json();
 
-    addMessage(text,"user");
+        hideTyping();
 
-    input.value="";
-
-    async function sendMessage() {
-        try {
-    const response = await fetch("/api/chat", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            messages: [
-                {
-                    role: "user",
-                    content: text
-                }
-            ]
-        })
-    });
-
-    const data = await response.json();
-
-    removeThinking();
-
-    if (data.error) {
-        addMessage(data.error, "ai");
-        return;
-    }
-
-    addMessage(data.reply, "ai");
-
-} catch (err) {
-    removeThinking();
-    addMessage("Failed to connect to the AI server.", "ai");
-    console.error(err);
+        if (!response.ok) {
+            addMessage(data.error || "Something went wrong.", "ai");
+            return;
         }
 
+        addMessage(data.reply, "ai");
+
+    } catch (err) {
+        hideTyping();
+        console.error(err);
+        addMessage("Unable to connect to the AI server.", "ai");
+    }
 }
 
-sendBtn.onclick = sendMessage;
+form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    sendMessage();
+});
 
-input.addEventListener("keypress",(e)=>{
-
-    if(e.key==="Enter"){
-
+input.addEventListener("keydown", function (e) {
+    if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
         sendMessage();
-
     }
+});
 
+themeBtn.addEventListener("click", () => {
+    document.body.classList.toggle("light");
 });
