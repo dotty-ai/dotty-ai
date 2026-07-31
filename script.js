@@ -65,15 +65,39 @@ function sendMessage(){
 
     input.value="";
 
-    thinking();
+    async function sendMessage() {
+        try {
+    const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            messages: [
+                {
+                    role: "user",
+                    content: text
+                }
+            ]
+        })
+    });
 
-    setTimeout(()=>{
+    const data = await response.json();
 
-        removeThinking();
+    removeThinking();
 
-        addMessage("The AI backend isn't connected yet. We'll connect it in Part 4.","ai");
+    if (data.error) {
+        addMessage(data.error, "ai");
+        return;
+    }
 
-    },1500);
+    addMessage(data.reply, "ai");
+
+} catch (err) {
+    removeThinking();
+    addMessage("Failed to connect to the AI server.", "ai");
+    console.error(err);
+        }
 
 }
 
